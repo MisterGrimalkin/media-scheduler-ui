@@ -24,8 +24,7 @@
 <div id="sideBar" class="cueMenu">
     <?php
         include("menus/eventMenu.php");
-    ?>
-    <?php
+        include("forms/imageControls.php");
         include("menus/cueMenu.php");
     ?>
 </div>

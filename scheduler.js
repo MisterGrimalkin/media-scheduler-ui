@@ -202,14 +202,14 @@ function redirect(target) {
 
 function today() {
     mask(true);
-    redirect("/?date="+dateString(new Date()));
+    redirect("index.php?date="+dateString(new Date()));
 }
 
 function moveDays(days) {
     var date = new Date($("#searchDate").val());
     date = new Date(date.getTime() + (days*24*60*60*1000))
     mask(true);
-    redirect("/?date="+dateString(date));
+    redirect("index.php?date="+dateString(date));
 }
 
 //////////

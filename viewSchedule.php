@@ -4,6 +4,7 @@
 
 <?php
     include("includes/common.php");
+    include("includes/wrapper.php");
     include("includes/header.html");
     define("WIDTH", @$_GET["width"] ? intval(@$_GET["width"]) : 1000);
     define("HEIGHT", @$_GET["height"] ? intval(@$_GET["height"]) : 800);
