@@ -20,7 +20,7 @@
                 $name = $cue["name"];
 
                 echo wrap("button", ["type"=>"button","class"=>"eventOnCue$id", "onclick"=>"highlightEvents(\"$id\");"],
-                        "$number: $name", true, true) . "<br>";
+                        "$number: $name", true, false) . "<br>";
             }
 
         }

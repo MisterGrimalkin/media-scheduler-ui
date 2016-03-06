@@ -30,11 +30,30 @@ function getCues() {
     return $result;
 }
 
+function isPost() {
+    return $_SERVER["REQUEST_METHOD"]==="POST";
+}
+
 function get($url) {
     $c = curl_init();
     curl_setopt($c, CURLOPT_URL, URL.$url);
     curl_setopt($c, CURLOPT_RETURNTRANSFER, 1);
     curl_setopt($c, CURLOPT_CUSTOMREQUEST, "GET");
+    $output = curl_exec($c);
+    curl_close($c);
+    return $output;
+}
+
+function post($url, $data) {
+    $c = curl_init();
+    curl_setopt($c, CURLOPT_URL, URL.$url);
+    curl_setopt($c, CURLOPT_CUSTOMREQUEST, "POST");
+    curl_setopt($c, CURLOPT_POSTFIELDS, $data);
+    curl_setopt($c, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($c, CURLOPT_HTTPHEADER, array(
+        'Content-Type: application/json',
+        'Content-Length: ' . strlen($data))
+    );
     $output = curl_exec($c);
     curl_close($c);
     return $output;

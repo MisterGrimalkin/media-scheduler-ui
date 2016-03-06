@@ -2,6 +2,7 @@ $foreColour: rgb(125,25,40)
 $backColour: rgba(250,240,250,0.8)
 $eventBorderColour: rgba(50,40,50,0.8)
 $nowColour: rgb(20,255,50)
+$hourMarkerColour: rgba(180,180,120,0.5)
 
 html body
     height: 100%
@@ -81,11 +82,11 @@ h3
     left: 0px
     position: absolute
     height: 1px
-    border-bottom: 1px solid rgba(180,180,120,0.1)
+    border-bottom: 1px solid $hourMarkerColour
     z-index: 50
     font-size: small
     font-size: small
-    color: #AAAAAA
+    color: $hourMarkerColour
 
 .dayPanel
     background-color: $backColour

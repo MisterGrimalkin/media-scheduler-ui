@@ -36,8 +36,8 @@
         </p>
 
         <p style="text-align: center">
-            <button type="button" onclick="hideEventForm();">Cancel</button>
             <button id="eventFormOK" type="submit">OK</button>
+            <button type="button" onclick="hideEventForm();">Cancel</button>
         </p>
 
     </form>

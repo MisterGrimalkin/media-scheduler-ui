@@ -17,8 +17,8 @@
         </p>
 
         <p style="text-align: center">
-            <button type="button" onclick="hideCueForm();">Cancel</button>
             <button type="submit">Create</button>
+            <button type="button" onclick="hideCueForm();">Cancel</button>
         </p>
 
     </form>
