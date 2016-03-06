@@ -1,12 +1,18 @@
 var url;
 
 function onLoad() {
+    
+    restoreFormValuesFromSession();
 
     loadSchedule();
 
     $("#eventForm").draggable();
     $("#cueForm").draggable();
 
+    $(".saveOnChange").change(function() {
+        saveFormValuesToSession();
+    });
+    
     setInterval(function() {
         if ( !timePaused ) {
             updateTime();
@@ -18,39 +24,27 @@ function onLoad() {
             updateTimeCursor();
         }
     }, 100);
+    
 }
 
 function loadSchedule() {
     var w = window.innerWidth - 240;
     var h = Math.max(window.innerHeight - 150, parseInt($("#sideBar").css("height")));
-    $("#schedule").attr("width", w+20);
-    $("#schedule").attr("height", window.innerHeight - 130);
-    $("#schedule").attr("src", "viewSchedule.php?date="+$("#searchDate").val()+"&width="+w+"&height="+h);
+    $("#schedule")
+        .attr("width", w+20)
+        .attr("height", window.innerHeight - 130)
+        .attr("src", "viewSchedule.php?date="+$("#searchDate").val()+"&width="+w+"&height="+h);
 }
 
 ////////////
 // Events //
 ////////////
 
-function showEventForm() {
-    mask(true);
-    $("#eventFormHeader").html("Create Event");
-    $("#eventForm").attr("class", "form shown editEvent");
-    $("#eventCueId").val(highlightedId);
-    $("#eventFormDate").val($("#searchDate").val());
-    $("#eventFormOK").html("Create");
-    $("#eventFormStartTime").focus();
-}
-
-function hideEventForm() {
-    $("#eventForm").attr("class", "form editEvent");
-    mask(false);
-}
-
 var selectedEvent = -1;
 
 function addEvent() {
     selectEvent(-1);
+//    $("#eventCueId").val(highlightedId);
     $("#schedule").contents().find(".event").css("background-color", "");
     showEventForm();
 }
@@ -154,16 +148,18 @@ var timePaused = false;
 function updateTime() {
     var rq = $.get(url + "/schedule/time");
     rq.done(function(response) {
-        $("#timePanel").attr("class", "timePanel");
-        $("#timePanel").html(response.substr(0,8));
+        $("#timePanel")
+            .attr("class", "timePanel")
+            .html(response.substr(0,8));
         if ( offline ) {
             timePaused = true;
             location.reload();
         }
     })
     .fail(function(err) {
-        $("#timePanel").attr("class", "timePanel offline");
-        $("#timePanel").html("Offline");
+        $("#timePanel")
+            .attr("class", "timePanel offline")
+            .html("Offline");
         if ( !offline ) {
             mask(true);
             $("#schedule").contents().find("#nowMarker").css("opacity",0);
@@ -212,16 +208,28 @@ function moveDays(days) {
     redirect("index.php?date="+dateString(date));
 }
 
-//////////
-// Cues //
-//////////
 
-function showCueForm(number, name) {
+///////////
+// Forms //
+///////////
+
+function showCueForm() {
     mask(true);
     $("#cueForm").attr("class", "form shown cue");
-    $("#cueFormNumber").val(number);
-    $("#cueFormName").val(name);
-    $("#cueFormNumber").focus();
+    $("#cueFormNumber")
+        .focus()
+        .select();
+}
+
+function showEventForm() {
+    mask(true);
+    $("#eventFormHeader").html("Create Event");
+    $("#eventForm").attr("class", "form shown editEvent");
+    $("#eventFormOK").html("Create");
+    if ( !sessionStorage.getItem("eventFormDate") ) {
+        $("#eventFormDate").val($("#searchDate").val());
+    }
+    $("#eventFormStartTime").focus();
 }
 
 function hideCueForm() {
@@ -229,26 +237,63 @@ function hideCueForm() {
     mask(false);
 }
 
+function hideEventForm() {
+    $("#eventForm").attr("class", "form editEvent");
+    mask(false);
+}
+
 function mask(on) {
     $("#mask").attr("class", "mask"+(on?"on":"off"));
 }
 
+
+/////////////////
+// Form Values //
+/////////////////
+
+function saveFormValuesToSession() {
+    saveFormValue("eventFormDate");
+    saveFormValue("eventFormStartTime");
+    saveFormValue("eventFormEndTime");
+    saveFormValue("eventCueId");
+    saveFormValue("cueFormNumber");
+    saveFormValue("cueFormName");
+}
+
+function saveFormValue(valueName) {
+    sessionStorage.setItem(valueName, $("#"+valueName).val());
+}
+
+function restoreFormValuesFromSession() {
+    restoreFormValue("eventFormDate");
+    restoreFormValue("eventFormStartTime");
+    restoreFormValue("eventFormEndTime");
+    restoreFormValue("eventCueId");
+    restoreFormValue("cueFormNumber");
+    restoreFormValue("cueFormName");
+}
+
+function restoreFormValue(valueName) {
+    $("#"+valueName).val(sessionStorage.getItem(valueName));
+}
+
+
+////////////////////
+// Image Controls //
+////////////////////
+
 function changeBrightness() {
     var val = $("#brightness").val();
     var rq = $.post(url + "/control/brightness?value="+val)
-    .done(function() {
-    })
     .fail(function(err) {
-        console.log(err);
+        window.alert("Error setting brightness: " + err);
     });
 }
 
 function changeContrast() {
     var val = $("#contrast").val();
     var rq = $.post(url + "/control/contrast?value="+val)
-    .done(function() {
-    })
     .fail(function(err) {
-        console.log(err);
+        window.alert("Error setting contrast: " + err);
     });
 }

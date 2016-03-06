@@ -1,4 +1,4 @@
-<?php $date=@$_GET["date"] ? @$_GET["date"] : date("Y-m-d"); ?>
+<?php $date=filter_input(INPUT_GET, "date") ? filter_input(INPUT_GET, "date") : date("Y-m-d"); ?>
 
 <html>
 
@@ -6,8 +6,8 @@
     include("includes/common.php");
     include("includes/wrapper.php");
     include("includes/header.html");
-    define("WIDTH", @$_GET["width"] ? intval(@$_GET["width"]) : 1000);
-    define("HEIGHT", @$_GET["height"] ? intval(@$_GET["height"]) : 800);
+    define("WIDTH", filter_input(INPUT_GET, "width") ? intval(filter_input(INPUT_GET, "width")) : 1000);
+    define("HEIGHT", filter_input(INPUT_GET, "height") ? intval(filter_input(INPUT_GET, "height")) : 800);
 ?>
 
 <body>

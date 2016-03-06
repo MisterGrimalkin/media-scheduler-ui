@@ -4,9 +4,9 @@ include("../includes/common.php");
 
 if ( isPost() ) {
 
-    $reloadDate = @$_POST["reloadDate"];
-    $number = @$_POST["cueNumber"];
-    $name = @$_POST["cueName"];
+    $reloadDate = filter_input(INPUT_POST, "reloadDate");
+    $number = filter_input(INPUT_POST, "cueNumber");
+    $name = filter_input(INPUT_POST, "cueName");
 
     if ( $name && $number ) {
 

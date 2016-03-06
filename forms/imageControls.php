@@ -6,7 +6,7 @@
     </p>
     <p>
         <div class="fieldLabel">Contrast</div>
-        <input id="contrast"   type="range" min="0" max="127"
+        <input id="contrast" type="range" min="0" max="127"
                value="<?php echo getContrast(); ?>" onchange="changeContrast();">
     </p>
 </div>

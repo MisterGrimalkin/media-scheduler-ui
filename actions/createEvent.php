@@ -4,15 +4,17 @@ include("../includes/common.php");
 
 if ( isPost() ) {
 
-    $reloadDate = @$_POST["reloadDate"];
-    $id = $_POST["id"] ? $_POST["id"] : -1;
-    
+    $id = filter_input(INPUT_POST, "id");
+    if ( !$id ) {
+        $id = -1;
+    }
     $url = ( $id >= 0 ? "/schedule/update" : "/schedule/add");
 
-    $date = $_POST["startDate"];
-    $start = $_POST["startTime"];
-    $end = $_POST["endTime"];
-    $cueId = $_POST["cueId"];
+    $date = filter_input(INPUT_POST, "startDate");
+    $start = filter_input(INPUT_POST, "startTime");
+    $end = filter_input(INPUT_POST, "endTime");
+    $cueId = filter_input(INPUT_POST, "cueId");
+    $reloadDate = filter_input(INPUT_POST, "reloadDate");
 
     if ( $date && $start && $end && (cueId >= 0) ) {
 

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<?php $date=@$_GET["date"] ? @$_GET["date"] : date("Y-m-d"); ?>
+<?php $date=filter_input(INPUT_GET, "date") ? filter_input(INPUT_GET, "date") : date("Y-m-d"); ?>
 
 <html>
 

@@ -8,12 +8,12 @@
 
         <p>
             <div class="fieldLabel">Number</div>
-            <input id="cueFormNumber" type="text" name="cueNumber" class="field" style="width: 50px;">
+            <input id="cueFormNumber" type="text" name="cueNumber" class="field saveOnChange" style="width: 50px;">
         </p>
 
         <p>
             <div class="fieldLabel">Name</div>
-            <input id="cueFormName" type="text" name="cueName"  class="field">
+            <input id="cueFormName" type="text" name="cueName" class="field saveOnChange">
         </p>
 
         <p style="text-align: center">
