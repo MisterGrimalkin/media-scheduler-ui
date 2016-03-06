@@ -28,6 +28,8 @@ function buildSchedule() {
 
     $cues = getCues();
     
+    echo wrap("script", [], "url = '".URL."';");
+    
     echo wrapStart("div",
         ["style"=>"width: {$fullWidth}px; height: ".HEIGHT."px; background: none; border: none;"]);
     
@@ -36,7 +38,8 @@ function buildSchedule() {
     $panelDate = new DateTime($date);
     for ( $i = 0; $i < 7; $i++ ) {
         echo wrap("div",
-            ["class"=>"dayPanel","style"=>"width: $dayWidth; height: ".HEIGHT.";"], 
+            ["class"=>"dayPanel",
+                "style"=>"width: $dayWidth; height: ".HEIGHT.";"], 
                 buildDay($panelDate, $cues)
                 );
         $panelDate->modify("+1 day");
@@ -60,7 +63,9 @@ function buildHourGrid() {
     for ( $i=0; $i<24; $i++ ) {
         $top = $adjustedHeaderHeight + ($i * $hourHeight);
         $label = "&nbsp;".str_pad(strval($i), 2, "0", STR_PAD_LEFT).":00";
-        $result .= wrap("div", ["class"=>"hourMarker", "style"=>"width: $width; top: $top;"],"$label");
+        $result .= wrap("div", [
+            "class"=>"hourMarker", 
+            "style"=>"width: $width; top: $top;"],"$label");
     }
     
     return $result;
@@ -141,8 +146,8 @@ function buildDay($date, $cues) {
             error_log($event["id"]);
             $result .= wrap("div",
                 ["id"=>$id,
-                 "onclick"=>"selectEvent({$event["id"]});",
-                 //"ondblclick"=>"var url=\"".URL."\"; editEvent({$event["id"]});",
+                 "onclick"=>"selectEvent({$event["id"]}, true);",
+                 "ondblclick"=>"editEvent({$event["id"]}, parent.document);",
                 "class"=>"event $secondClass $id",
                 "style"=>"top: {$top}px; height: {$height}px; width: {$dayWidth};"],
                 $cues[$event["cueId"]]["name"]." (".$startTime->format("H:i")."-".$endTime->format("H:i").")");

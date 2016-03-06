@@ -18,7 +18,7 @@
 
         <p style="text-align: center">
             <button type="submit">Create</button>
-            <button type="button" onclick="hideCueForm();">Cancel</button>
+            <button type="button" onclick="hideCueForm(document);">Cancel</button>
         </p>
 
     </form>

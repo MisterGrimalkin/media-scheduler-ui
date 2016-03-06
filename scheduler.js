@@ -40,37 +40,38 @@ function loadSchedule() {
 // Events //
 ////////////
 
-var selectedEvent = -1;
-
 function addEvent() {
-    selectEvent(-1);
-//    $("#eventCueId").val(highlightedId);
-    $("#schedule").contents().find(".event").css("background-color", "");
-    showEventForm();
+    selectEvent(0, false);
+    $("#eventHiddenId").val(-1);
+    if ( sessionStorage.getItem("highlightCueId") > 0 ) {
+        $("#eventCueId").val(sessionStorage.getItem("highlightCueId"));
+    }
+    highlightEvents(0, false);
+    showEventForm(document);
 }
 
 function editSelectedEvent() {
-    editEvent($("#selectedEventId").prop("data-value"), url+"/schedule/event");
+    editEvent(sessionStorage.getItem("selectedEventId"), document);
 }
 
-function editEvent(id, uri) {
+function editEvent(id, context) {
     $.ajax({
-        url: uri,
+        url: url+"/schedule/event",
         type: 'GET',
         data: {
             id: ""+id
         },
         success: function(response) {
             var event = JSON.parse(response);
-            showEventForm();
-            $("#eventFormHeader").html("Edit Event");
-            $("#eventHiddenId").val(event["id"]);
-            $("#eventFormDate").val(event["startDate"]);
-            $("#eventFormStartTime").val(event["startTime"])
-            $("#eventFormEndTime").val(event["endTime"])
-            $("#eventCueId").val(event["cueId"]);
-            $("#eventFormOK").html("Update");
-            $("#eventFormStartDate").focus();
+            showEventForm(context);
+            $("#eventFormHeader", context).html("Edit Event");
+            $("#eventHiddenId", context).val(event["id"]);
+            $("#eventFormDate", context).val(event["startDate"]);
+            $("#eventFormStartTime", context).val(event["startTime"]);
+            $("#eventFormEndTime", context).val(event["endTime"]);
+            $("#eventCueId", context).val(event["cueId"]);
+            $("#eventFormOK", context).html("Update");
+            $("#eventFormStartDate", context).focus();
         },
         fail: function(response) {
             window.alert(response);
@@ -80,14 +81,14 @@ function editEvent(id, uri) {
 }
 
 function removeEvent() {
-    var id = $("#selectedEventId").prop("data-value");
+    var selected = sessionStorage.getItem("selectedEventId");
     var response = window.confirm("Really delete this event?");
     if ( response ) {
-        if ( id >= 0 ) {
+        if ( selected >= 0 ) {
             $.ajax({
                 url: 'actions/removeEvent.php',
                 type: 'POST',
-                data: ""+id,
+                data: ""+selected,
                 success: function(response) {
                     location.reload();
                 },
@@ -99,42 +100,68 @@ function removeEvent() {
     }
 }
 
-function selectEvent(id) {
-    if ( selectedEvent>=0 ) {
-        $(".event"+selectedEvent).css("background-color", "");
-        $("#removeEvent", parent.document).prop("disabled", "disabled");
-        $("#editEvent", parent.document).prop("disabled", "disabled");
+function selectEvent(id, fromFrame) {
+    var selected = sessionStorage.getItem("selectedEventId");
+    if ( selected ) {
+        if ( fromFrame ) {
+            $(".event"+selected).css("background-color", "");
+            $("#removeEvent", parent.document).prop("disabled", "disabled");
+            $("#editEvent", parent.document).prop("disabled", "disabled");
+        } else {
+            $("#schedule").contents().find(".event"+selected).css("background-color", "");
+            $("#removeEvent").prop("disabled", "disabled");
+            $("#editEvent").prop("disabled", "disabled");
+        }
     }
-    if ( id>=0 && selectedEvent!==id ) {
-        $(".event"+id).css("background-color", "red");
-        $("#removeEvent", parent.document).prop("disabled", "");
-        $("#editEvent", parent.document).prop("disabled", "");
-        highlightEvents(-1);
-        selectedEvent = id;
-    } else {
-        selectedEvent = -1;
+    if ( id > 0 ) {
+        highlightEvents(0, fromFrame);
+        if ( fromFrame ) {
+            $(".event"+id).css("background-color", "red");
+            $("#removeEvent", parent.document).prop("disabled", "");
+            $("#editEvent", parent.document).prop("disabled", "");
+        } else {
+            $("#schedule").contents().find(".event"+id).css("background-color", "red");
+            $("#removeEvent").prop("disabled", "");
+            $("#editEvent").prop("disabled", "");
+        }
     }
-    console.log("select " + selectedEvent);
-    $("#selectedEventId", parent.document).prop("data-value", selectedEvent);
-    console.log($("#selectedEventId", parent.document).prop("data-value"));
+    sessionStorage.setItem("selectedEventId", id);
 }
 
-var highlightedId = -1;
-
-function highlightEvents(id) {
-    if ( highlightedId>=0 ) {
-        $(".eventOnCue"+highlightedId).css("background-color", "");
-        $("#schedule").contents().find(".eventOnCue"+highlightedId).css("background-color", "");
-        $("#schedule").contents().find(".eventOnCue"+highlightedId).css("color", "");
+function highlightEvents(cueId, fromFrame) {
+    selectEvent(0);
+    var highlighted = sessionStorage.getItem("highlightCueId");
+    if ( highlighted ) {
+        if ( fromFrame ) {
+            $(".eventOnCue"+highlighted, parent.document).css("background-color", "");
+            $(".eventOnCue"+highlighted)
+                    .css("background-color", "")
+                    .css("color", "");
+        } else {
+            $(".eventOnCue"+highlighted).css("background-color", "");
+            $("#schedule").contents().find(".eventOnCue"+highlighted)
+                .css("background-color", "")
+                .css("color", "");
+        }
     }
-    if ( highlightedId===id ) {
-        highlightedId = -1;
-    } else {
-        highlightedId = id;
-        $(".eventOnCue"+highlightedId).css("background-color", "yellow");
-        $("#schedule").contents().find(".eventOnCue"+id).css("color","black");
-        $("#schedule").contents().find(".eventOnCue"+id).css("background-color","yellow");
+    if ( cueId > 0 ) {
+        if ( highlighted===cueId ) {
+            highlighted = 0;
+        } else {
+            if ( fromFrame ) {
+                $(".eventOnCue"+cueId, parent.document).css("background-color", "yellow");
+                $(".eventOnCue"+cueId)
+                        .css("background-color", "yellow")
+                        .css("color", "black");
+            } else {
+                $(".eventOnCue"+cueId).css("background-color", "yellow");
+                $("#schedule").contents().find(".eventOnCue"+cueId)
+                    .css("background-color", "yellow")
+                    .css("color", "black");
+            }
+        }
     }
+    sessionStorage.setItem("highlightCueId", cueId);
 }
 
 
@@ -213,23 +240,23 @@ function moveDays(days) {
 // Forms //
 ///////////
 
-function showCueForm() {
+function showCueForm(context) {
     mask(true);
-    $("#cueForm").attr("class", "form shown cue");
-    $("#cueFormNumber")
+    $("#cueForm", context).attr("class", "form shown cue");
+    $("#cueFormNumber", context)
         .focus()
         .select();
 }
 
-function showEventForm() {
-    mask(true);
-    $("#eventFormHeader").html("Create Event");
-    $("#eventForm").attr("class", "form shown editEvent");
-    $("#eventFormOK").html("Create");
+function showEventForm(context) {
+    mask(true, context);
+    $("#eventFormHeader", context).html("Create Event");
+    $("#eventForm", context).attr("class", "form shown editEvent");
+    $("#eventFormOK", context).html("Create");
     if ( !sessionStorage.getItem("eventFormDate") ) {
-        $("#eventFormDate").val($("#searchDate").val());
+        $("#eventFormDate", context).val($("#searchDate").val());
     }
-    $("#eventFormStartTime").focus();
+    $("#eventFormStartTime", context).focus();
 }
 
 function hideCueForm() {
@@ -243,7 +270,11 @@ function hideEventForm() {
 }
 
 function mask(on) {
-    $("#mask").attr("class", "mask"+(on?"on":"off"));
+    mask(on, document);
+}
+
+function mask(on, context) {
+    $("#mask", context).attr("class", "mask"+(on?"on":"off"));
 }
 
 

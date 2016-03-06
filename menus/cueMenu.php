@@ -19,13 +19,13 @@
                 $number = $cue["number"];
                 $name = $cue["name"];
 
-                echo wrap("button", ["type"=>"button","class"=>"eventOnCue$id", "onclick"=>"highlightEvents(\"$id\");"],
+                echo wrap("button", ["type"=>"button","class"=>"eventOnCue$id", "onclick"=>"highlightEvents(\"$id\", false);"],
                         "$number: $name", true, false) . "<br>";
             }
 
         }
 
-        echo "<br>". wrap("button", ["type"=>"button", "onclick"=>"showCueForm();"], "Add...");
+        echo "<br>". wrap("button", ["type"=>"button", "onclick"=>"showCueForm(document);"], "Add...");
 
     ?>
 
