@@ -8,19 +8,19 @@
         <input id="eventHiddenId" type="number" name="id" class="hidden">
 
         <p>
-            <div class="fieldLabel">Date</div>
+            <label for="eventFormDate" class="fieldLabel">Date</label>
             <input id="eventFormDate" type="date" name="startDate" class="field saveOnChange" style="width: 210px;">
         </p>
 
         <p>
-            <div class="fieldLabel">Start</div>
+            <label for="eventFormStartTime" class="fieldLabel">Start</label>
             <input id="eventFormStartTime" type="time" name="startTime"  class="field saveOnChange" style="width: 80px;">
-            <div class="fieldLabel">End</div>
+            <label for="eventFormEndTime" class="fieldLabel">End</label>
             <input id="eventFormEndTime" type="time" name="endTime"  class="field saveOnChange" style="width: 80px;">
         </p>
 
         <p>
-            <div class="fieldLabel">Cue</div>
+            <label for="eventCueId" class="fieldLabel">Cue</label>
             <select id="eventCueId" class="field saveOnChange" name="cueId" style="width: 210px;">
                 <?php
                     $cues = getCues();

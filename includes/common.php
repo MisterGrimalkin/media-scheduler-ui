@@ -1,6 +1,7 @@
 <?php
 
-define("URL", "http://192.168.0.123:8001/mediascheduler");
+//define("URL", "http://192.168.0.123:8001/mediascheduler");
+define("URL", "http://localhost:8001/scheduler");
 
 function getBrightness() {
     return get("/control/brightness");
@@ -20,7 +21,7 @@ function getCues() {
     $result = [];
     $output = get("/cue");
     if ( $output !== false ) {
-        $cues = json_decode($output, true);
+        $cues = json_decode($output, true)["cues"];
         if ( count($cues)>0 ) {
             foreach($cues as $cue) {
                 $result[$cue["id"]] = $cue;

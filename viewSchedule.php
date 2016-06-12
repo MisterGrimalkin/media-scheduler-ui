@@ -16,7 +16,7 @@
 
 <?php
 
-$dayWidth = round(WIDTH / 7) - 16;
+$dayWidth = round(WIDTH / 7) - 10;
 
 buildSchedule();
 
@@ -24,7 +24,7 @@ function buildSchedule() {
 
     global $date, $dayWidth;
     
-    $fullWidth = ($dayWidth * 7) + 16;
+    $fullWidth = ($dayWidth * 7) + 14;
 
     $cues = getCues();
     
@@ -55,20 +55,35 @@ function buildHourGrid() {
 
     $width = ($dayWidth * 7) + 13;
 
-    $headerHeight = 20;
-    $adjustedHeaderHeight = $headerHeight + 10;
-    $columnHeight = HEIGHT - $adjustedHeaderHeight;
-
-    $hourHeight = round($columnHeight / 24) - 0.5;
     for ( $i=0; $i<24; $i++ ) {
-        $top = $adjustedHeaderHeight + ($i * $hourHeight);
+        $topDate = new DateTime("$i:00");
+        $top = calculateTop($topDate);
         $label = "&nbsp;".str_pad(strval($i), 2, "0", STR_PAD_LEFT).":00";
         $result .= wrap("div", [
             "class"=>"hourMarker", 
-            "style"=>"width: $width; top: $top;"],"$label");
+            "style"=>"width: {$width}px; top: {$top}px;"],"$label");
     }
     
     return $result;
+}
+
+function calculateTop(DateTime $date) {
+    
+    $hours = intval($date->format("H"));
+    $minutes = intval($date->format("i"));
+    
+    $headerHeight = 30;
+    
+    $columnHeight = HEIGHT - $headerHeight;
+    
+    $hourHeight = $columnHeight / 24;
+    $minuteHeight = $hourHeight / 60;
+    error_log("MINUTE HEIGHT = $minuteHeight");
+    
+    $top = round($headerHeight + ($hours * $hourHeight) + ($minutes * $minuteHeight));
+
+    return $top;
+    
 }
 
 function buildDay($date, $cues) {
@@ -120,6 +135,7 @@ function buildDay($date, $cues) {
         foreach ($events as $event) {
 
             $startTime = new DateTime($event["startTime"]);
+            calculateTop($startTime);
             $endTime = new DateTime($event["endTime"]);
 
             $startHour = 2;
@@ -134,9 +150,11 @@ function buildDay($date, $cues) {
 
             $name = $cues[$event["cueId"]];
 
-            $top = (( $containerHeight / (24 * 60 * 60) ) * $start) + $containerTop;
-            //echo "$length , $start    ";
-            $height = ( $containerHeight / (24 * 60 * 60) ) * $length;
+            $top = calculateTop($startTime);
+            $height = calculateTop($endTime) - $top;
+//            $top = (( $containerHeight / (24 * 60 * 60) ) * $start) + $containerTop;
+//            //echo "$length , $start    ";
+//            $height = ( $containerHeight / (24 * 60 * 60) ) * $length;
 
             $id = "event".$event["id"];
 

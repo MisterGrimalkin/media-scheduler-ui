@@ -14,18 +14,17 @@
             asort($cues);
 
             foreach ( $cues as $cue ) {
-
                 $id = $cue["id"];
-                $number = $cue["number"];
                 $name = $cue["name"];
 
                 echo wrap("button", ["type"=>"button","class"=>"eventOnCue$id", "onclick"=>"highlightEvents(\"$id\", false);"],
-                        "$number: $name", true, false) . "<br>";
+                        "Cue $id: $name", true, false) . "<br>";
             }
 
         }
 
         echo "<br>". wrap("button", ["type"=>"button", "onclick"=>"showCueForm(document);"], "Add...");
+        echo "<br>". wrap("button", ["type"=>"button", "onclick"=>"editSelectedCue();"], "Edit");
 
     ?>
 

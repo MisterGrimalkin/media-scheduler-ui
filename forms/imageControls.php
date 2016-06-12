@@ -1,11 +1,11 @@
 <div class="controlPanel">
     <p>
-        <div class="fieldLabel">Brightness</div>
+        <label for="brightness" class="fieldLabel">Brightness</label>
         <input id="brightness" type="range" min="0" max="127"
                value="<?php echo getBrightness(); ?>" onchange="changeBrightness();">
     </p>
     <p>
-        <div class="fieldLabel">Contrast</div>
+        <label for="contrast" class="fieldLabel">Contrast</label>
         <input id="contrast" type="range" min="0" max="127"
                value="<?php echo getContrast(); ?>" onchange="changeContrast();">
     </p>

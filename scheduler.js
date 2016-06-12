@@ -164,6 +164,57 @@ function highlightEvents(cueId, fromFrame) {
     sessionStorage.setItem("highlightCueId", cueId);
 }
 
+function editCue(id, context) {
+    console.log(url);
+    $.ajax({
+        url: url+"/cue?id="+id,
+        type: 'GET',
+        success: function(response) {
+            var cue = JSON.parse(response);
+            var hostStr = "";
+            var hosts = cue["hosts"];
+            if ( hosts ) {
+                for ( var i=0; i<hosts.length; i++ ) {
+                    if ( i>0 ) {
+                        hostStr += ";;";
+                    }
+                    hostStr += hosts[i]["ip"];
+                }
+            }
+            var paramStr = "";
+            var params = cue["params"];
+            if ( params ) {
+                for ( var i=0; i<params.length; i++ ) {
+                    if ( i>0 ) {
+                        paramStr += ";;";
+                    }
+                    paramStr += params[i]["name"]+"="+params[i]["value"];
+                }
+            }
+            showCueForm(context);
+            $("#cueFormHeader", context).html("Edit Cue");
+            $("#cueHiddenId", context).val(cue["id"]);
+            $("#cueFormName", context).val(cue["name"]);
+            $("#cueFormMethod", context).val(cue["method"]);
+            $("#cueFormHosts", context).val(hostStr);
+            $("#cueFormPath", context).val(cue["path"]);
+            $("#cueFormParams", context).val(paramStr);
+            $("#cueFormPayload", context).val(cue["payload"]);
+            $("#cueFormOK", context).html("Update");
+            $("#cueFormName", context).focus();
+        },
+        fail: function(response) {
+            window.alert(response);
+        }
+    });
+}
+
+function editSelectedCue() {
+    var selectedCue = sessionStorage.getItem("highlightCueId");
+    if ( selectedCue ) {
+        editCue(selectedCue, document);
+    }
+}
 
 //////////
 // Time //
