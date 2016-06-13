@@ -1,6 +1,6 @@
 <h1>
     <?php
-        echo date("F Y", strtotime($date));
+        echo date("d F Y", strtotime($date));
     ?>
 </h1>
 
