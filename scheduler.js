@@ -2,28 +2,29 @@ var url;
 
 function onLoad() {
     
-    restoreFormValuesFromSession();
-
-    loadSchedule();
-
+//    restoreFormValuesFromSession();
+//
+//    loadSchedule();
+//
     $("#eventForm").draggable();
     $("#cueForm").draggable();
-
-    $(".saveOnChange").change(function() {
-        saveFormValuesToSession();
-    });
-    
-    setInterval(function() {
-        if ( !timePaused ) {
-            updateTime();
-        }
-    }, 250);
-
-    setInterval(function() {
-        if ( !offline ) {
-            updateTimeCursor();
-        }
-    }, 100);
+    $("#showTimeForm").draggable();
+//
+//    $(".saveOnChange").change(function() {
+//        saveFormValuesToSession();
+//    });
+//    
+//    setInterval(function() {
+//        if ( !timePaused ) {
+//            updateTime();
+//        }
+//    }, 250);
+//
+//    setInterval(function() {
+//        if ( !offline ) {
+//            updateTimeCursor();
+//        }
+//    }, 100);
     
 }
 
@@ -216,6 +217,13 @@ function editSelectedCue() {
     }
 }
 
+function selectTab(name) {
+    $(".activeTab", parent.document)
+            .removeClass("activeTab");
+    $("#"+name, parent.document)
+        .attr("class","activeTab");
+}
+
 //////////
 // Time //
 //////////
@@ -297,6 +305,68 @@ function showCueForm(context) {
     $("#cueFormNumber", context)
         .focus()
         .select();
+}
+
+function showShowTimeForm() {
+    mask(true);
+    $("#showTimeForm").attr("class", "form shown showTime");
+//    $("#cueFormNumber", context)
+//        .focus()
+//        .select();
+}
+
+function hideShowTimeForm() {
+    $("#showTimeForm").attr("class", "form showTime");
+    mask(false);
+}
+
+function editShow(id) {
+    if ( id===-1 ) {
+        showShowTimeForm();
+        $("#showTimeHiddenId").val(-1);
+        $("#showTimeFormDate").val(new Date());
+        $("#showTimeFormStartTime").val();
+        $("#showTimeFormEndTime").val();
+        $("#showTimeFormTitle").val("");
+        $("#showTimeFormDescription1").val("");
+        $("#showTimeFormDescription2").val("");
+        $("#showTimeFormAlwaysShow").prop("checked", false);
+        $("#showTimeFormAlwaysShowOnDay").prop("checked", false);
+        
+    } else {
+        $.ajax({
+           url: url+"/showtime?id="+id,
+           type: "GET",
+           success: function(response) {
+                showShowTimeForm();
+                show = JSON.parse(response);
+                
+                console.log(show["alwaysShow"]);
+                $("#showTimeHiddenId").val(show["id"]);
+                $("#showTimeFormDate").val(show["date"]);
+                $("#showTimeFormStartTime").val(show["startTime"]);
+                $("#showTimeFormEndTime").val(show["endTime"]);
+                $("#showTimeFormTitle").val(show["title"]);
+                $("#showTimeFormDescription1").val(show["description1"]);
+                $("#showTimeFormDescription2").val(show["description2"]);
+                $("#showTimeFormAlwaysShow").prop("checked", show["alwaysShow"]);
+                $("#showTimeFormAlwaysShowOnDay").prop("checked", show["alwaysShowOnDay"]);
+           }
+        });
+    }
+}
+
+function deleteShow(id) {
+    var response = window.confirm("Really delete this show?");
+    if ( response ) {
+        $.ajax({
+            url: url+"/showtime/delete?id="+id,
+            type: 'POST',
+            success: function(response) {
+                location.reload();
+            }
+        });
+    }
 }
 
 function showEventForm(context) {

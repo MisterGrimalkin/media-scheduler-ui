@@ -9,31 +9,29 @@
 
 <div id="mask" class="maskoff"></div>
 
-<div id="selectedEventId" data-value="-1" class="hidden"></div>
-
-<div id="timePanel" class="timePanel"></div>
-
 <?php
     include("includes/common.php");
     include("includes/wrapper.php");
-    include("forms/cueForm.php");
-    include("forms/eventForm.php");
+    include("forms/showTimeForm.php");
     echo wrap("script", [], "url = '".URL."';");
+    $navlinks = [];
+            
 ?>
 
-<div id="sideBar" class="cueMenu">
-    <?php
-        include("menus/eventMenu.php");
-        include("menus/cueMenu.php");
-    ?>
+<div class="topBar">
+    <h1>Media Scheduler</h1>
 </div>
 
-<div class="schedulePanel">
-    <?php
-        include("forms/searchDateForm.php");
-    ?>
-    <iframe id="schedule" width="1000" height="820" frameborder="0"></iframe>
-</div>
+<nav class="tabBar">
+    <a id="tabShowTimes" href="show-times.php" target="mainContent">Show Times</a>
+    <a id="tabMessages" href="messages.php" target="mainContent">Messages</a>
+    <a id="tabTickets" href="tickets.php" target="mainContent">Tickets</a>
+</nav>
+
+<iframe id="mainContent" name="mainContent" width="1300" height="1000" src="" frameborder="0"></iframe>
+
+
+
 
 </body>
 

@@ -1,7 +1,6 @@
 <?php
 
-//define("URL", "http://192.168.0.123:8001/mediascheduler");
-define("URL", "http://localhost:8001/scheduler");
+define("URL", "http://192.168.1.123:8001/scheduler");
 
 function getBrightness() {
     return get("/control/brightness");
@@ -9,6 +8,12 @@ function getBrightness() {
 
 function getContrast() {
     return get("/control/contrast");
+}
+
+function getShowTimes() {
+    $result = [];
+    $output = get("/showtimes");
+    return json_decode($output, true);
 }
 
 function getSchedule($date) {
