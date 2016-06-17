@@ -449,3 +449,32 @@ function changeContrast() {
         window.alert("Error setting contrast: " + err);
     });
 }
+
+function setTicketNumber(gender, current) {
+    var value = window.prompt("Enter new " + gender + " ticket number:", current)
+    if ( value!==current ) {
+        $.ajax({
+           url: url+"/showers/"+gender+"/" + value,
+           type: "POST",
+           success: function(response) {
+            location.reload();
+           },
+           faile: function(response) {
+               window.alert("Error");
+           }
+       });
+    }
+}
+
+function nextTicketNumber(gender) {
+    $.ajax({
+       url: url+"/showers/"+gender+"/next",
+       type: "POST",
+       success: function(response) {
+            location.reload();
+       },
+       faile: function(response) {
+           window.alert("Error");
+       }
+   });
+}

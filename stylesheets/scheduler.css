@@ -1,5 +1,48 @@
+.showerButton {
+  width: 300px;
+  height: 180px;
+  font-size: 50px;
+  border: 2px solid #7d1928;
+  border-radius: 11px;
+  box-shadow: 2px 2px 4px black;
+  text-align: center;
+  vertical-align: middle;
+  display: inline-block;
+  margin: 20px;
+  color: #7d1928;
+  padding-top: 20px;
+  cursor: pointer; }
+
+.showerControl {
+  width: 300px;
+  height: 70px;
+  font-size: 50px;
+  border: 2px solid #7d1928;
+  border-radius: 11px;
+  box-shadow: 2px 2px 4px black;
+  text-align: center;
+  vertical-align: middle;
+  display: inline-block;
+  margin: 20px;
+  background-color: #7d1928;
+  color: rgba(250, 240, 250, 0.8);
+  padding-top: 10px;
+  cursor: pointer; }
+
 .content {
   padding: 15px 5px 0px 5px; }
+
+.ticketContent {
+  width: 100%;
+  text-align: center;
+  margin: 0px; }
+
+.ticketNumber {
+  font-size: 80px;
+  font-weight: bold;
+  color: black;
+  padding-top: 0px;
+  margin: 0px; }
 
 html body {
   height: 100px;
