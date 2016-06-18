@@ -10,8 +10,17 @@ function getContrast() {
     return get("/control/contrast");
 }
 
+function getShowerMessages() {
+    $output = get("/showers/messages");
+    return json_decode($output, true);
+}
+
+function getScrollerMessages() {
+    $output = get("/scroller/messages");
+    return json_decode($output, true);
+}
+
 function getShowTimes() {
-    $result = [];
     $output = get("/showtimes");
     return json_decode($output, true);
 }

@@ -28,6 +28,165 @@ function onLoad() {
     
 }
 
+function fireLogo() {
+    $.ajax({
+        url: url+"/showers/firelogo",
+        type: 'POST',
+        fail: function(response) {
+            window.alert(response);
+        }
+    });
+}
+function fireScroller() {
+    $.ajax({
+        url: url+"/showers/firescroller",
+        type: 'POST',
+        fail: function(response) {
+            window.alert(response);
+        }
+    });
+}
+function activateShowers() {
+    $.ajax({
+        url: url+"/showers/showermode",
+        type: 'POST',
+        fail: function(response) {
+            window.alert(response);
+        }
+    });
+}
+
+
+function activateEvents() {
+    $.ajax({
+        url: url+"/showers/eventsmode",
+        type: 'POST',
+        fail: function(response) {
+            window.alert(response);
+        }
+    });
+}
+
+/////////////////////
+// Shower Messages //
+/////////////////////
+
+function addShowerMessage() {
+    var msg = $("#showerMessage-add").val();
+    if ( !msg ) {
+        window.alert("Kinda need you to type something in the box!");
+        $("#showerMessage-"+id).focus();
+    } else {
+        $.ajax({
+            url: url+"/showers/message/add",
+            type: 'POST',
+            data: msg,
+            success: function(response) {
+                location.reload();
+            },
+            fail: function(response) {
+                window.alert(response);
+            }
+        });
+    }
+}
+
+function saveShowerMessage(id) {
+    var msg = $("#showerMessage-"+id).val();
+    if ( !msg ) {
+        window.alert("Kinda need you to type something in the box!");
+        $("#showerMessage-"+id).focus();
+    } else {
+        $.ajax({
+            url: url+"/showers/message/replace/"+id,
+            type: 'POST',
+            data: msg,
+            success: function(response) {
+                location.reload();
+            },
+            fail: function(response) {
+                window.alert(response);
+            }
+        });
+    }
+}
+
+function removeShowerMessage(id) {
+    var response = window.confirm("Really remove this message?");
+    if ( response ) {
+        $.ajax({
+            url: url+"/showers/message/delete/"+id,
+            type: 'POST',
+            success: function(response) {
+                location.reload();
+            },
+            fail: function(response) {
+                window.alert(response);
+            }
+        });
+    }
+}
+
+///////////////////////
+// Scroller Messages //
+///////////////////////
+
+function addScrollerMessage() {
+    var msg = $("#scrollerMessage-add").val();
+    if ( !msg ) {
+        window.alert("Kinda need you to type something in the box!");
+        $("#scrollerMessage-"+id).focus();
+    } else {
+        $.ajax({
+            url: url+"/scroller/message/add",
+            type: 'POST',
+            data: msg,
+            success: function(response) {
+                location.reload();
+            },
+            fail: function(response) {
+                window.alert(response);
+            }
+        });
+    }
+}
+
+function saveScrollerMessage(id) {
+    var msg = $("#scrollerMessage-"+id).val();
+    if ( !msg ) {
+        window.alert("Kinda need you to type something in the box!");
+        $("#scrollerMessage-"+id).focus();
+    } else {
+        $.ajax({
+            url: url+"/scroller/message/replace/"+id,
+            type: 'POST',
+            data: msg,
+            success: function(response) {
+                location.reload();
+            },
+            fail: function(response) {
+                window.alert(response);
+            }
+        });
+    }
+}
+
+function removeScrollerMessage(id) {
+    var response = window.confirm("Really remove this message?");
+    if ( response ) {
+        $.ajax({
+            url: url+"/scroller/message/delete/"+id,
+            type: 'POST',
+            success: function(response) {
+                location.reload();
+            },
+            fail: function(response) {
+                window.alert(response);
+            }
+        });
+    }
+}
+
 function loadSchedule() {
     var w = window.innerWidth - 240;
     var h = Math.max(window.innerHeight - 150, parseInt($("#sideBar").css("height")));

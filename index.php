@@ -19,13 +19,15 @@
 ?>
 
 <div class="topBar">
-    <h1>Media Scheduler</h1>
+    <img src="images/gplogo.jpg" style="margin:20px; float:right;"/>
+    <h1>Glastonbury 2016</h1>
 </div>
 
 <nav class="tabBar">
     <a id="tabShowTimes" href="show-times.php" target="mainContent">Show Times</a>
     <a id="tabMessages" href="messages.php" target="mainContent">Messages</a>
     <a id="tabTickets" href="tickets.php" target="mainContent">Tickets</a>
+    <a id="tabControls" href="controls.php" target="mainContent">Controls</a>
 </nav>
 
 <iframe id="mainContent" name="mainContent" width="1300" height="1000" src="" frameborder="0"></iframe>

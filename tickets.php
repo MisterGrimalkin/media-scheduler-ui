@@ -9,9 +9,12 @@
     $femaleTicket = get("/showers/female");
     $maleTicket = get("/showers/male");
     ?>
-    <body onload="selectTab('tabTickets');">
+    <body onload="selectTab('tabTickets'); $('#ticketBody').requestFullscreen();">
+        <div id="ticketBody" >
+        <div style="text-align: center">
+            <img src="images/gplogo.jpg" style="margin:20px;"/>
+        </div>
         <div class="ticketContent">
-            <h1>Shower Tickets</h1>
             <div class="showerButton" onclick="setTicketNumber('female', <?php echo $femaleTicket ?>);">
                 FEMALE
                 <p class="ticketNumber">
@@ -31,6 +34,7 @@
             <div class="showerControl" onclick="nextTicketNumber('male');">
                 Next
             </div>
+        </div>
         </div>
 
     </body>
