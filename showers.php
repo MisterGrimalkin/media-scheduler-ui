@@ -6,7 +6,7 @@
     include("includes/wrapper.php");
     $femaleTicket = get("/showers/female");
     $maleTicket = get("/showers/male");
-    echo wrap("script", [], "url = 'http://192.168.30.77:8001/scheduler'; male = '$maleTicket'; female = '$femaleTicket';");
+    echo wrap("script", [], "url = 'http://192.168.1.72:8001/scheduler'; male = '$maleTicket'; female = '$femaleTicket';");
     ?>
     <body onload="selectTab('tabTickets'); monitorShowers();">
         <div id="ticketBody" >

@@ -5,7 +5,7 @@
     include("includes/common.php");
     include("includes/wrapper.php");
     include("forms/showTimeForm.php");
-    echo wrap("script", [], "url = '" . URL . "';");
+    echo wrap("script", [], "url = 'http://192.168.30.77:8001/scheduler';");
     ?>
     <body onload="selectTab('tabShowTimes'); $('#showTimeForm').draggable();">
         <div class="content">

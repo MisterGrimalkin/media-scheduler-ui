@@ -9,13 +9,12 @@
 
 <div id="mask" class="maskoff"></div>
 
-<?php
+    <?php
     include("includes/common.php");
     include("includes/wrapper.php");
     include("forms/showTimeForm.php");
-    echo wrap("script", [], "url = '".URL."';");
+    echo wrap("script", [], "url = '".CLIENT_URL."';");
     $navlinks = [];
-            
 ?>
 
 <div class="topBar">

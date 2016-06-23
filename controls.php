@@ -4,7 +4,7 @@
     include("includes/header.html"); 
     include("includes/common.php");
     include("includes/wrapper.php");
-    echo wrap("script", [], "url = '".URL."';");
+    echo wrap("script", [], "url = 'http://192.168.30.77:8001/scheduler';");
 ?>
     <body onload="selectTab('tabControls');">
         <div class="content">

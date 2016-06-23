@@ -1,6 +1,8 @@
 <?php
 
-define("URL", "http://192.168.1.123:8001/scheduler");
+//define("URL", "http://192.168.30.77:8001/scheduler");
+define("URL", "http://192.168.1.72:8001/scheduler");
+define("CLIENT_URL", "http://192.168.30.77:8001/scheduler");
 
 function getBrightness() {
     return get("/control/brightness");
@@ -8,6 +10,10 @@ function getBrightness() {
 
 function getContrast() {
     return get("/control/contrast");
+}
+
+function getBigLogoMessage() {
+    return get("/showers/big-message");
 }
 
 function getShowerMessages() {

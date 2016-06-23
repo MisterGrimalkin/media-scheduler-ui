@@ -1,4 +1,6 @@
 var url;
+var male;
+var female;
 
 function onLoad() {
     
@@ -26,6 +28,35 @@ function onLoad() {
 //        }
 //    }, 100);
     
+}
+
+function monitorShowers() {
+    setInterval(function() {
+        $.ajax({
+            url: url+"/showers/male",
+            type: "GET",
+            success: function(response) {
+                if ( response !== male ) {
+                    getTicketNumber("male");
+                }
+            },
+            fail: function(response) {
+                console.log(response);
+            }
+        });
+        $.ajax({
+            url: url+"/showers/female",
+            type: "GET",
+            success: function(response) {
+                if ( response !== female ) {
+                    getTicketNumber("female");
+                }
+            },
+            fail: function(response) {
+                console.log(response);
+            }
+        });
+    }, 1000);
 }
 
 function fireLogo() {
@@ -616,7 +647,7 @@ function setTicketNumber(gender, current) {
            url: url+"/showers/"+gender+"/" + value,
            type: "POST",
            success: function(response) {
-            location.reload();
+               getTicketNumber(gender);
            },
            faile: function(response) {
                window.alert("Error");
@@ -625,15 +656,29 @@ function setTicketNumber(gender, current) {
     }
 }
 
+function getTicketNumber(gender) {
+    console.log("Getting " + gender);
+    $.ajax({
+       url: url+"/showers/"+gender,
+       type: "GET",
+       success: function(response) {
+           $("#"+gender+"TicketNumber").html(response);
+       },
+       fail: function(response) {
+           console.log("Error " + response);
+       }
+    });
+}
+
 function nextTicketNumber(gender) {
     $.ajax({
        url: url+"/showers/"+gender+"/next",
        type: "POST",
        success: function(response) {
-            location.reload();
+            getTicketNumber(gender);
        },
        faile: function(response) {
-           window.alert("Error");
+           window.alert(response);
        }
    });
 }
